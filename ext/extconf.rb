@@ -24,7 +24,7 @@ if !(MAKE = find_executable('gmake') || find_executable('make'))
 end
 
 CWD = File.expand_path(File.dirname(__FILE__))
-LIBGIT2_DIR = File.join(CWD, '..', '..', 'vendor', 'libgit2')
+LIBGIT2_DIR = File.join(CWD, '..', 'vendor', 'libgit2')
 
 if !find_executable('cmake')
   abort "ERROR: CMake is required to build libgit2."
@@ -76,4 +76,4 @@ unless have_library 'git2' and have_header 'git2.h'
 end
 
 # Do the work
-create_makefile('gitfetch/gitfetch')
+create_makefile('gitfetch')

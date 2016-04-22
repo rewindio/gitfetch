@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name                  = "gitfetch"
-  s.version               = "0.0.1"
+  s.version               = "0.0.2"
   s.date                  = Time.now.strftime('%Y-%m-%d')
   s.summary               = "Minimal wrapper around libgit2's git_remote_fetch()"
   s.homepage              = "https://github.com/backhub/gitfetch"
@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.files                 += Dir.glob("vendor/libgit2/cmake/**/*")
   s.files                 += Dir.glob("vendor/libgit2/{include,src,deps}/**/*")
   s.files                 += Dir.glob("vendor/libgit2/{CMakeLists.txt,Makefile.embed,AUTHORS,COPYING,libgit2.pc.in}")
-  s.extensions            = ['ext/gitfetch/extconf.rb']
+  s.extensions            = ['ext/extconf.rb']
   s.required_ruby_version = '>= 1.9.3'
   s.description           = <<desc
 gitfetch is a minimal wrapper around libgit2's git_remote_fetch().

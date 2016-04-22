@@ -8,7 +8,7 @@ It is used for testing libgit2 without rugged.
 place
 
 ```
-gem 'gitfetch', :git => 'https://github.com/backhub/gitfetch.git', :branch => 'master'
+gem 'gitfetch', git: 'https://github.com/backhub/gitfetch.git', branch: 'master', submodules: true 
 ```
 
 in your `Gemfile`

@@ -2,8 +2,9 @@
 #include <ruby.h>
 #include "gitfetch.h"
 
-// store error class Git::Error
+// store error classes Git::Error, Git::AuthenticationError
 VALUE rb_eGitError = Qnil;
+VALUE rb_eGitAuthenticationError = Qnil;
 
 // the initialization method for this module
 void Init_gitfetch() {
@@ -16,6 +17,7 @@ void Init_gitfetch() {
   Git = rb_define_module("Git");
   rb_define_module_function(Git, "fetch", method_fetch, 2);
   rb_eGitError = rb_define_class_under(Git, "Error", rb_eStandardError);
+  rb_eGitAuthenticationError = rb_define_class_under(Git, "AuthenticationError", rb_eGitError);
 }
 
 // callback: tries the access_token passed in through the payload ONCE
@@ -72,8 +74,12 @@ VALUE method_fetch(VALUE self, VALUE repository_path, VALUE access_token) {
   // raise Git::Error if error is not 0
   if (error) {
     const git_error *g_error = giterr_last();
+    if(error == GIT_EAUTH) {
+      rb_raise(rb_eGitAuthenticationError, "%s\n", (g_error && g_error->message) ? g_error->message : "Unkown Authentication Error");      
+    } else {
     rb_raise(rb_eGitError, "%s (%d)\n", (g_error && g_error->message) ? g_error->message : "Unkown Error",
       error);
+    }
   }
 
   return Qnil;

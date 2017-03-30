@@ -2,14 +2,14 @@
 
 int create_remote_mirror(git_remote **out, git_repository *repository, const char *name, const char *url, void *payload);
 
-VALUE method_clone(VALUE self, VALUE remote_url, VALUE path, VALUE access_token) {
+VALUE method_clone(VALUE self, VALUE remote_url, VALUE path, VALUE access_token, VALUE bare) {
   int error;
   struct credentials_s credentials = { NULL, 0 };
 
   git_repository *repository;
 
   git_clone_options clone_options = GIT_CLONE_OPTIONS_INIT;
-  clone_options.bare = true;
+  clone_options.bare = RTEST(bare);
   clone_options.fetch_opts.download_tags = GIT_REMOTE_DOWNLOAD_TAGS_ALL;
   clone_options.remote_cb = create_remote_mirror;
 

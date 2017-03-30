@@ -1,7 +1,10 @@
 #include "gitfetch.h"
 
 // git-fetch remote "origin" for repository at "repository_path"
-VALUE method_fetch(VALUE self, VALUE repository_path, VALUE access_token) {
+VALUE method_fetch(int argc, VALUE *argv, VALUE self) {
+  VALUE repository_path, access_token;
+  rb_scan_args(argc, argv, "11", &repository_path, &access_token);
+
   int error;
 
   git_repository *repository;

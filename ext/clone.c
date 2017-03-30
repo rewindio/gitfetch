@@ -2,7 +2,10 @@
 
 int create_remote_mirror(git_remote **out, git_repository *repository, const char *name, const char *url, void *payload);
 
-VALUE method_clone(VALUE self, VALUE remote_url, VALUE path, VALUE access_token, VALUE bare) {
+VALUE method_clone(int argc, VALUE *argv, VALUE self) {
+  VALUE remote_url, path, bare, access_token;
+  rb_scan_args(argc, argv, "22", &remote_url, &path, &bare, &access_token);
+
   int error;
   struct credentials_s credentials = { NULL, 0 };
 

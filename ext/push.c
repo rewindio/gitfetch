@@ -1,6 +1,9 @@
 #include "gitfetch.h"
 
-VALUE method_push(VALUE self, VALUE repository_path, VALUE push_url, VALUE access_token) {
+VALUE method_push(int argc, VALUE *argv, VALUE self) {
+  VALUE repository_path, push_url, access_token;
+  rb_scan_args(argc, argv, "21", &repository_path, &push_url, &access_token);
+
   int error;
 
   git_repository *repository;

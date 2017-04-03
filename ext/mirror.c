@@ -3,8 +3,8 @@
 int create_remote(git_remote **out, git_repository *repository, const char *name, const char *url, void *payload);
 
 VALUE method_mirror(int argc, VALUE *argv, VALUE self) {
-  VALUE remote_url, path, bare, access_token;
-  rb_scan_args(argc, argv, "22", &remote_url, &path, &bare, &access_token);
+  VALUE remote_url, path, access_token;
+  rb_scan_args(argc, argv, "21", &remote_url, &path, &access_token);
 
   int error;
   struct credentials_s credentials = { NULL, 0 };
@@ -12,7 +12,7 @@ VALUE method_mirror(int argc, VALUE *argv, VALUE self) {
   git_repository *repository;
 
   git_clone_options clone_options = GIT_CLONE_OPTIONS_INIT;
-  clone_options.bare = RTEST(bare);
+  clone_options.bare = true;
   clone_options.fetch_opts.download_tags = GIT_REMOTE_DOWNLOAD_TAGS_ALL;
   clone_options.remote_cb = create_remote;
 

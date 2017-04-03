@@ -1,8 +1,8 @@
 #include "gitfetch.h"
 
-int create_remote_mirror(git_remote **out, git_repository *repository, const char *name, const char *url, void *payload);
+int create_remote(git_remote **out, git_repository *repository, const char *name, const char *url, void *payload);
 
-VALUE method_clone(int argc, VALUE *argv, VALUE self) {
+VALUE method_mirror(int argc, VALUE *argv, VALUE self) {
   VALUE remote_url, path, bare, access_token;
   rb_scan_args(argc, argv, "22", &remote_url, &path, &bare, &access_token);
 
@@ -14,7 +14,7 @@ VALUE method_clone(int argc, VALUE *argv, VALUE self) {
   git_clone_options clone_options = GIT_CLONE_OPTIONS_INIT;
   clone_options.bare = RTEST(bare);
   clone_options.fetch_opts.download_tags = GIT_REMOTE_DOWNLOAD_TAGS_ALL;
-  clone_options.remote_cb = create_remote_mirror;
+  clone_options.remote_cb = create_remote;
 
   if (access_token != Qnil) {
     credentials.access_token = StringValuePtr(access_token);
@@ -35,7 +35,7 @@ VALUE method_clone(int argc, VALUE *argv, VALUE self) {
   return Qnil;
 }
 
-int create_remote_mirror(git_remote **out, git_repository *repo, const char *name, const char *url, void *payload) {
+int create_remote(git_remote **out, git_repository *repo, const char *name, const char *url, void *payload) {
   GIT_UNUSED(payload);
 
   int error;

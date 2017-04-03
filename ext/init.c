@@ -18,9 +18,9 @@ void Init_gitfetch() {
 
   Git = rb_define_module("Git");
 
-  rb_define_module_function(Git, "clone", method_clone, -1);
   rb_define_module_function(Git, "fetch", method_fetch, -1);
   rb_define_module_function(Git, "libgit2_version", method_libgit2_version, 0);
+  rb_define_module_function(Git, "mirror", method_mirror, -1);
   rb_define_module_function(Git, "push", method_push, -1);
 
   rb_eGitError = rb_define_class_under(Git, "Error", rb_eStandardError);

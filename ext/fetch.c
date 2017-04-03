@@ -1,5 +1,7 @@
 #include "gitfetch.h"
 
+int fetch_origin(git_repository *repository, VALUE access_token);
+
 // git-fetch remote "origin" for repository at "repository_path"
 VALUE method_fetch(int argc, VALUE *argv, VALUE self) {
   VALUE repository_path, access_token;
@@ -12,7 +14,7 @@ VALUE method_fetch(int argc, VALUE *argv, VALUE self) {
   // open repository "repository_path"
   error = git_repository_open(&repository, StringValueCStr(repository_path));
   if (error == 0) {
-    error = fetch_repository(repository, access_token);
+    error = fetch_origin(repository, access_token);
   }
 
   // check for errors and raise exception accordingly
@@ -26,7 +28,7 @@ VALUE method_fetch(int argc, VALUE *argv, VALUE self) {
   return Qnil;
 }
 
-int fetch_repository(git_repository *repository, VALUE access_token) {
+int fetch_origin(git_repository *repository, VALUE access_token) {
   int error;
 
   git_remote *remote;

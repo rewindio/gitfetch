@@ -15,7 +15,6 @@ struct credentials_s {
 void Init_gitfetch();
 
 int cb_cred_access_token(git_cred**, const char*, const char*, unsigned int, void*);
-int fetch_repository(git_repository *repository, VALUE access_token);
 void raise_exception(int error);
 
 // method 'fetch' - methods are prefixed by 'method_' here

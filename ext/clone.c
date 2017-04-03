@@ -22,7 +22,7 @@ VALUE method_clone(int argc, VALUE *argv, VALUE self) {
     clone_options.fetch_opts.callbacks.payload     = &credentials;
   }
 
-  error = git_clone(&repository, StringValuePtr(remote_url), StringValuePtr(path), &clone_options);
+  error = git_clone(&repository, StringValueCStr(remote_url), StringValueCStr(path), &clone_options);
 
   if (error == 0) {
     git_repository_free(repository);

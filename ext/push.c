@@ -11,15 +11,15 @@ VALUE method_push(int argc, VALUE *argv, VALUE self) {
   git_strarray refs;
 
   // open repository "repository_path"
-  error = git_repository_open(&repository, StringValuePtr(repository_path));
+  error = git_repository_open(&repository, StringValueCStr(repository_path));
   if (error == 0) {
-    error = git_remote_create_anonymous(&remote, repository, StringValuePtr(push_url));
+    error = git_remote_create_anonymous(&remote, repository, StringValueCStr(push_url));
     if (error == 0) {
       struct credentials_s credentials = { NULL, 0 };
       git_push_options push_options = GIT_PUSH_OPTIONS_INIT;
 
       if (access_token != Qnil) {
-        credentials.access_token = StringValuePtr(access_token);
+        credentials.access_token = StringValueCStr(access_token);
         push_options.callbacks.credentials = cb_cred_access_token;
         push_options.callbacks.payload     = &credentials;
       }

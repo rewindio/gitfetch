@@ -10,7 +10,7 @@ VALUE method_fetch(int argc, VALUE *argv, VALUE self) {
   git_repository *repository;
 
   // open repository "repository_path"
-  error = git_repository_open(&repository, StringValuePtr(repository_path));
+  error = git_repository_open(&repository, StringValueCStr(repository_path));
   if (error == 0) {
     error = fetch_repository(repository, access_token);
   }
@@ -42,7 +42,7 @@ int fetch_repository(git_repository *repository, VALUE access_token) {
     fetch_options.prune = GIT_FETCH_PRUNE;
 
     if (access_token != Qnil) {
-      credentials.access_token = StringValuePtr(access_token);
+      credentials.access_token = StringValueCStr(access_token);
       fetch_options.callbacks.credentials = cb_cred_access_token;
       fetch_options.callbacks.payload     = &credentials;
     }

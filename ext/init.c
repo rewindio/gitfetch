@@ -20,6 +20,7 @@ void Init_gitfetch() {
 
   rb_define_module_function(Git, "fetch", method_fetch, -1);
   rb_define_module_function(Git, "libgit2_version", method_libgit2_version, 0);
+  rb_define_module_function(Git, "local_checkout", method_local_checkout, 2);
   rb_define_module_function(Git, "mirror", method_mirror, -1);
   rb_define_module_function(Git, "push", method_push, -1);
 

@@ -20,6 +20,7 @@ void raise_exception(int error);
 // method 'fetch' - methods are prefixed by 'method_' here
 VALUE method_fetch(int argc, VALUE *argv, VALUE self);
 VALUE method_libgit2_version(VALUE self);
+VALUE method_local_checkout(VALUE self, VALUE src, VALUE dst);
 VALUE method_mirror(int argc, VALUE *argv, VALUE self);
 VALUE method_push(int argc, VALUE *argv, VALUE self);
 

@@ -17,12 +17,12 @@ void Init_gitfetch();
 int cb_cred_access_token(git_cred**, const char*, const char*, unsigned int, void*);
 void raise_exception(int error);
 
-// method 'fetch' - methods are prefixed by 'method_' here
-VALUE method_fetch(int argc, VALUE *argv, VALUE self);
-VALUE method_libgit2_version(VALUE self);
-VALUE method_local_checkout(VALUE self, VALUE src, VALUE dst);
-VALUE method_mirror(int argc, VALUE *argv, VALUE self);
-VALUE method_push(int argc, VALUE *argv, VALUE self);
+// methods under module Git are prefixed by 'rb_git_'
+VALUE rb_git_fetch(int argc, VALUE *argv, VALUE self);
+VALUE rb_git_libgit2_version(VALUE self);
+VALUE rb_git_local_checkout(VALUE self, VALUE src, VALUE dst);
+VALUE rb_git_mirror(int argc, VALUE *argv, VALUE self);
+VALUE rb_git_push(int argc, VALUE *argv, VALUE self);
 
 extern VALUE rb_eGitError;
 extern VALUE rb_eGitAuthenticationError;

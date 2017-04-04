@@ -5,7 +5,7 @@ void check_exception(int error);
 int copy_branch(git_repository *repository, git_reference *src_branch, const char *dst_name);
 const char *branch_name(git_reference *branch);
 
-VALUE method_local_checkout(VALUE self, VALUE src_path, VALUE dst_path) {
+VALUE rb_git_local_checkout(VALUE self, VALUE src_path, VALUE dst_path) {
   int error;
 
   git_repository *repository;

@@ -1,6 +1,6 @@
 #include "gitfetch.h"
 
-VALUE method_libgit2_version(VALUE self) {
+VALUE rb_git_libgit2_version(VALUE self) {
   int major, minor, rev;
 
   git_libgit2_version(&major, &minor, &rev);

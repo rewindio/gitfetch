@@ -2,7 +2,7 @@
 
 int create_remote(git_remote **out, git_repository *repository, const char *name, const char *url, void *payload);
 
-VALUE method_mirror(int argc, VALUE *argv, VALUE self) {
+VALUE rb_git_mirror(int argc, VALUE *argv, VALUE self) {
   VALUE remote_url, path, access_token;
   rb_scan_args(argc, argv, "21", &remote_url, &path, &access_token);
 

@@ -14,22 +14,22 @@ static void cleanup_cb(void*);
 // the initialization method for this module
 void Init_gitfetch() {
   // define a space for information and references about the module to be stored internally
-  VALUE Git = Qnil;
+  VALUE rb_mGit = Qnil;
 
-  Git = rb_define_module("Git");
+  rb_mGit = rb_define_module("Git");
 
-  rb_define_module_function(Git, "fetch", method_fetch, -1);
-  rb_define_module_function(Git, "libgit2_version", method_libgit2_version, 0);
-  rb_define_module_function(Git, "local_checkout", method_local_checkout, 2);
-  rb_define_module_function(Git, "mirror", method_mirror, -1);
-  rb_define_module_function(Git, "push", method_push, -1);
+  rb_define_module_function(rb_mGit, "fetch", rb_git_fetch, -1);
+  rb_define_module_function(rb_mGit, "libgit2_version", rb_git_libgit2_version, 0);
+  rb_define_module_function(rb_mGit, "local_checkout", rb_git_local_checkout, 2);
+  rb_define_module_function(rb_mGit, "mirror", rb_git_mirror, -1);
+  rb_define_module_function(rb_mGit, "push", rb_git_push, -1);
 
-  rb_eGitError = rb_define_class_under(Git, "Error", rb_eStandardError);
-  rb_eGitAuthenticationError = rb_define_class_under(Git, "AuthenticationError", rb_eGitError);
-  rb_eGitEofError = rb_define_class_under(Git, "EofError", rb_eGitError);
-  rb_eGitExistsError = rb_define_class_under(Git, "ExistsError", rb_eGitError);
-  rb_eGitNetworkError = rb_define_class_under(Git, "NetworkError", rb_eGitError);
-  rb_eGitNotFoundError = rb_define_class_under(Git, "NotFoundError", rb_eGitError);
+  rb_eGitError = rb_define_class_under(rb_mGit, "Error", rb_eStandardError);
+  rb_eGitAuthenticationError = rb_define_class_under(rb_mGit, "AuthenticationError", rb_eGitError);
+  rb_eGitEofError = rb_define_class_under(rb_mGit, "EofError", rb_eGitError);
+  rb_eGitExistsError = rb_define_class_under(rb_mGit, "ExistsError", rb_eGitError);
+  rb_eGitNetworkError = rb_define_class_under(rb_mGit, "NetworkError", rb_eGitError);
+  rb_eGitNotFoundError = rb_define_class_under(rb_mGit, "NotFoundError", rb_eGitError);
 
   // initialize libgit2
   git_libgit2_init();

@@ -9,7 +9,7 @@ VALUE rb_git_mirror(int argc, VALUE *argv, VALUE self) {
   int error;
   struct credentials_s credentials = { NULL, 0 };
 
-  git_repository *repository;
+  git_repository *repository = NULL;
 
   git_clone_options clone_options = GIT_CLONE_OPTIONS_INIT;
   clone_options.bare = true;
@@ -24,9 +24,7 @@ VALUE rb_git_mirror(int argc, VALUE *argv, VALUE self) {
 
   error = git_clone(&repository, StringValueCStr(remote_url), StringValueCStr(path), &clone_options);
 
-  if (error == 0) {
-    git_repository_free(repository);
-  }
+  git_repository_free(repository);
 
   if (error < 0) {
     raise_exception(error);
@@ -39,8 +37,8 @@ int create_remote(git_remote **out, git_repository *repo, const char *name, cons
   GIT_UNUSED(payload);
 
   int error;
-  git_config *cfg;
-  char *mirror_config;
+  git_config *cfg = NULL;
+  char *mirror_config = NULL;
 
   /* Create the repository with a mirror refspec */
   if ((error = git_remote_create_with_fetchspec(out, repo, name, url, "+refs/*:refs/*")) < 0)

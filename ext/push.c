@@ -6,15 +6,15 @@ VALUE rb_git_push(int argc, VALUE *argv, VALUE self) {
 
   int error;
 
-  git_repository *repository;
-  git_remote *remote;
+  git_repository *repository = NULL;
+  git_remote *remote = NULL;
   git_strarray refs;
 
   // open repository "repository_path"
   error = git_repository_open(&repository, StringValueCStr(repository_path));
-  if (error == 0) {
+  if (error == GIT_OK) {
     error = git_remote_create_anonymous(&remote, repository, StringValueCStr(push_url));
-    if (error == 0) {
+    if (error == GIT_OK) {
       struct credentials_s credentials = { NULL, 0 };
       git_push_options push_options = GIT_PUSH_OPTIONS_INIT;
 
@@ -25,14 +25,15 @@ VALUE rb_git_push(int argc, VALUE *argv, VALUE self) {
       }
 
       error = git_reference_list(&refs, repository);
-      if (error == 0) {
+      if (error == GIT_OK) {
         error = git_remote_push(remote, &refs, &push_options);
-        git_strarray_free(&refs);
       }
-      git_remote_free(remote);
+      git_strarray_free(&refs);
     }
-    git_repository_free(repository);
+    git_remote_free(remote);
   }
+
+  git_repository_free(repository);
 
   // check for errors and raise exception accordingly
   // raise Git::Error if error is not 0

@@ -8,9 +8,9 @@ const char *branch_name(git_reference *branch);
 VALUE rb_git_local_checkout(VALUE self, VALUE src_path, VALUE dst_path) {
   int error;
 
-  git_repository *repository;
-  git_branch_iterator *iterator;
-  git_reference *branch;
+  git_repository *repository = NULL;
+  git_branch_iterator *iterator = NULL;
+  git_reference *branch = NULL;
   git_branch_t branch_type;
   git_clone_options clone_options = GIT_CLONE_OPTIONS_INIT;
 
@@ -37,10 +37,10 @@ VALUE rb_git_local_checkout(VALUE self, VALUE src_path, VALUE dst_path) {
     if (error == GIT_ITEROVER) {
       error = git_remote_delete(repository, "origin");
     }
-
-    git_branch_iterator_free(iterator);
-    git_repository_free(repository);
   }
+
+  git_branch_iterator_free(iterator);
+  git_repository_free(repository);
 
   check_exception(error);
 
@@ -49,7 +49,7 @@ VALUE rb_git_local_checkout(VALUE self, VALUE src_path, VALUE dst_path) {
 
 int branch_exist(git_repository *repository, const char *name) {
   int error;
-  git_reference *branch;
+  git_reference *branch = NULL;
 
   error = git_branch_lookup(&branch, repository, name, GIT_BRANCH_LOCAL);
   git_reference_free(branch);
@@ -71,15 +71,15 @@ inline void check_exception(int error) {
 
 int copy_branch(git_repository *repository, git_reference *src_branch, const char *dst_name) {
   int error;
-  git_annotated_commit *commit;
-  git_reference *new_branch;
+  git_annotated_commit *commit = NULL;
+  git_reference *new_branch = NULL;
 
   if((error = git_annotated_commit_from_ref(&commit, repository, src_branch)) == GIT_OK) {
-    if((error = git_branch_create_from_annotated(&new_branch, repository, dst_name, commit, false)) == GIT_OK) {
-      git_reference_free(new_branch);
-    }
-    git_annotated_commit_free(commit);
+    error = git_branch_create_from_annotated(&new_branch, repository, dst_name, commit, false);
+    git_reference_free(new_branch);
   }
+
+  git_annotated_commit_free(commit);
 
   return error;
 }

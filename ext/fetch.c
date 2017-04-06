@@ -9,20 +9,20 @@ VALUE rb_git_fetch(int argc, VALUE *argv, VALUE self) {
 
   int error;
 
-  git_repository *repository;
+  git_repository *repository = NULL;
 
   // open repository "repository_path"
   error = git_repository_open(&repository, StringValueCStr(repository_path));
-  if (error == 0) {
+  if (error == GIT_OK) {
     error = fetch_origin(repository, access_token);
   }
+
+  git_repository_free(repository);
 
   // check for errors and raise exception accordingly
   // raise Git::Error if error is not 0
   if (error < 0) {
     raise_exception(error);
-  } else {
-    git_repository_free(repository);
   }
 
   return Qnil;
@@ -31,12 +31,12 @@ VALUE rb_git_fetch(int argc, VALUE *argv, VALUE self) {
 int fetch_origin(git_repository *repository, VALUE access_token) {
   int error;
 
-  git_remote *remote;
+  git_remote *remote = NULL;
 
   // look up remote "origin"
   error = git_remote_lookup(&remote, repository, "origin");
 
-  if (error == 0) {
+  if (error == GIT_OK) {
     struct credentials_s credentials = { NULL, 0 };
     // fetch remote
     git_fetch_options fetch_options = GIT_FETCH_OPTIONS_INIT;
@@ -50,8 +50,9 @@ int fetch_origin(git_repository *repository, VALUE access_token) {
     }
 
     error = git_remote_fetch(remote, NULL, &fetch_options, NULL);
-    git_remote_free(remote);
   }
+
+  git_remote_free(remote);
 
   return error;
 }

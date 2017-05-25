@@ -15,6 +15,7 @@ struct credentials_s {
 void Init_gitfetch();
 
 int cb_cred_access_token(git_cred**, const char*, const char*, unsigned int, void*);
+int git_clone_without_gvl(git_repository**, char*, char*, git_clone_options*);
 void raise_exception(int error);
 
 // methods under module Git are prefixed by 'rb_git_'

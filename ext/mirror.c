@@ -22,7 +22,7 @@ VALUE rb_git_mirror(int argc, VALUE *argv, VALUE self) {
     clone_options.fetch_opts.callbacks.payload     = &credentials;
   }
 
-  error = git_clone(&repository, StringValueCStr(remote_url), StringValueCStr(path), &clone_options);
+  error = git_clone_without_gvl(&repository, StringValueCStr(remote_url), StringValueCStr(path), &clone_options);
 
   git_repository_free(repository);
 

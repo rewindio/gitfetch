@@ -1,5 +1,7 @@
 #include "gitfetch.h"
 
+#define check_error(error) if (error < 0) { git_remote_free(remote); return error; };
+
 int fetch_origin(git_repository *repository, VALUE access_token);
 
 // git-fetch remote "origin" for repository at "repository_path"
@@ -29,30 +31,31 @@ VALUE rb_git_fetch(int argc, VALUE *argv, VALUE self) {
 }
 
 int fetch_origin(git_repository *repository, VALUE access_token) {
-  int error;
-
   git_remote *remote = NULL;
 
   // look up remote "origin"
-  error = git_remote_lookup(&remote, repository, "origin");
+  check_error(git_remote_lookup(&remote, repository, "origin"));
 
-  if (error == GIT_OK) {
-    struct credentials_s credentials = { NULL, 0 };
-    // fetch remote
-    git_fetch_options fetch_options = GIT_FETCH_OPTIONS_INIT;
-    fetch_options.download_tags = GIT_REMOTE_DOWNLOAD_TAGS_ALL;
-    fetch_options.prune = GIT_FETCH_PRUNE;
+  struct credentials_s credentials = { NULL, 0 };
+  // fetch remote
+  git_fetch_options fetch_options = GIT_FETCH_OPTIONS_INIT;
+  fetch_options.download_tags = GIT_REMOTE_DOWNLOAD_TAGS_ALL;
+  fetch_options.prune = GIT_FETCH_NO_PRUNE;
 
-    if (access_token != Qnil) {
-      credentials.access_token = StringValueCStr(access_token);
-      fetch_options.callbacks.credentials = cb_cred_access_token;
-      fetch_options.callbacks.payload     = &credentials;
-    }
-
-    error = git_remote_fetch(remote, NULL, &fetch_options, NULL);
+  if (access_token != Qnil) {
+    credentials.access_token = StringValueCStr(access_token);
+    fetch_options.callbacks.credentials = cb_cred_access_token;
+    fetch_options.callbacks.payload     = &credentials;
   }
+
+  check_error(git_remote_connect(remote, GIT_DIRECTION_FETCH, &fetch_options.callbacks,
+                                 &fetch_options.proxy_opts, &fetch_options.custom_headers));
+
+  check_error(git_remote_prune(remote, &fetch_options.callbacks));
+
+  check_error(git_remote_fetch(remote, NULL, &fetch_options, NULL));
 
   git_remote_free(remote);
 
-  return error;
+  return GIT_OK;
 }

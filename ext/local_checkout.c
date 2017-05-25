@@ -14,9 +14,7 @@ VALUE rb_git_local_checkout(VALUE self, VALUE src_path, VALUE dst_path) {
   git_branch_t branch_type;
   git_clone_options clone_options = GIT_CLONE_OPTIONS_INIT;
 
-  VALUE file_url = rb_sprintf("file://%"PRIsVALUE, src_path);
-
-  error = git_clone(&repository, StringValueCStr(file_url), StringValueCStr(dst_path), &clone_options);
+  error = git_clone(&repository, StringValueCStr(src_path), StringValueCStr(dst_path), &clone_options);
 
   if (error == GIT_OK) {
     error = git_branch_iterator_new(&iterator, repository, GIT_BRANCH_REMOTE);

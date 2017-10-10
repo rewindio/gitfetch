@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name                  = "gitfetch"
-  s.version               = "0.0.3"
+  s.version               = "0.0.4"
   s.date                  = Time.now.strftime('%Y-%m-%d')
   s.summary               = "Minimal wrapper around libgit2's git_remote_fetch()"
   s.homepage              = "https://github.com/backhub/gitfetch"

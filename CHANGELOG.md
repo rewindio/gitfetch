@@ -1,3 +1,9 @@
+### 0.0.4
+
+- Fix error check
+- Fix fetch remote with access_token
+- update libgit2 to version 0.26.0
+
 ### 0.0.3
 
 - prune _before_ fetch

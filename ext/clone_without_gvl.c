@@ -18,6 +18,7 @@ void *clone_without_gvl_cb(void *data) {
 
 int git_clone_without_gvl(git_repository **repository, char *src_path, char *dst_path, git_clone_options *clone_options) {
   struct clone_args args = { repository, src_path, dst_path, clone_options, GIT_OK };
+
   rb_thread_call_without_gvl(&clone_without_gvl_cb, (void *) &args, NULL, NULL);
   return args.error;
 }

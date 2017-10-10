@@ -1,6 +1,6 @@
 #include "gitfetch.h"
 
-#define check_error(error) if (error < 0) { git_remote_free(remote); return error; };
+#define check_error(f) do { int error; if ((error = f) < 0) { git_remote_free(remote); return error; }} while(0)
 
 int fetch_origin(git_repository *repository, VALUE access_token);
 

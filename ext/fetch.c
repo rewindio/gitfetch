@@ -51,8 +51,10 @@ int fetch_origin(git_repository *repository, VALUE access_token) {
   check_error(git_remote_connect(remote, GIT_DIRECTION_FETCH, &fetch_options.callbacks,
                                  &fetch_options.proxy_opts, &fetch_options.custom_headers));
 
+  credentials.count = 0;
   check_error(git_remote_prune(remote, &fetch_options.callbacks));
 
+  credentials.count = 0;
   check_error(git_remote_fetch(remote, NULL, &fetch_options, NULL));
 
   git_remote_free(remote);

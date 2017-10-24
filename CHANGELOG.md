@@ -1,7 +1,10 @@
+### 0.0.6
+
+- http-authentication: username: "x-access-token", password: access_token
+
 ### 0.0.5
 
 - update libgit2 to commit 35cb7b8 (fix git submodule init)
-
 
 ### 0.0.4
 

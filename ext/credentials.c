@@ -16,7 +16,7 @@ int cb_cred_access_token(git_cred **out, const char *url, const char *username_f
       return GIT_EAUTH;
     } else {
       credentials->count++;
-      return git_cred_userpass_plaintext_new(out, credentials->access_token, "");
+      return git_cred_userpass_plaintext_new(out, "x-access-token", credentials->access_token);
     }
   }
 

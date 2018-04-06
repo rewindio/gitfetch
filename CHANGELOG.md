@@ -1,6 +1,14 @@
+### 0.0.7
+
+- enable parallel execution (releasing GIL before each method call)
+- improve docs (using YARD)
+- add license (MIT)
+- update libgit2 to version 0.27.0
+
 ### 0.0.6
 
-- http-authentication: username: "x-access-token", password: access_token
+- http-authentication now sends
+  `username: "x-access-token", password: access_token`
 
 ### 0.0.5
 
@@ -8,8 +16,8 @@
 
 ### 0.0.4
 
-- Fix error check
-- Fix fetch remote with access_token
+- fix error check
+- fix fetch remote with access_token
 - update libgit2 to version 0.26.0
 
 ### 0.0.3

@@ -1,9 +1,7 @@
 #include "gitfetch.h"
 
-VALUE rb_git_push(int argc, VALUE *argv, VALUE self) {
-  VALUE repository_path, push_url, access_token;
-  rb_scan_args(argc, argv, "21", &repository_path, &push_url, &access_token);
-
+void *git_push_cb(void *data) {
+  struct cb_args *args = data;
   int error;
 
   git_repository *repository = NULL;
@@ -11,15 +9,14 @@ VALUE rb_git_push(int argc, VALUE *argv, VALUE self) {
   git_strarray refs;
 
   // open repository "repository_path"
-  error = git_repository_open(&repository, StringValueCStr(repository_path));
+  error = git_repository_open(&repository, args->src);
   if (error == GIT_OK) {
-    error = git_remote_create_anonymous(&remote, repository, StringValueCStr(push_url));
+    error = git_remote_create_anonymous(&remote, repository, args->dst);
     if (error == GIT_OK) {
-      struct credentials_s credentials = { NULL, 0 };
+      struct credentials_s credentials = { args->access_token, 0 };
       git_push_options push_options = GIT_PUSH_OPTIONS_INIT;
 
-      if (access_token != Qnil) {
-        credentials.access_token = StringValueCStr(access_token);
+      if (args->access_token) {
         push_options.callbacks.credentials = cb_cred_access_token;
         push_options.callbacks.payload     = &credentials;
       }
@@ -35,11 +32,36 @@ VALUE rb_git_push(int argc, VALUE *argv, VALUE self) {
 
   git_repository_free(repository);
 
+  args->error = error;
+
+  return &(args->error);
+}
+
+VALUE rb_git_push(int argc, VALUE *argv, VALUE self) {
+  int *error;
+  VALUE repository_path, push_url, access_token;
+  rb_scan_args(argc, argv, "21", &repository_path, &push_url, &access_token);
+
+  struct cb_args args = {
+    .src = StringValueCStr(repository_path),
+    .dst = StringValueCStr(push_url)
+  };
+
+  if (access_token != Qnil) {
+    args.access_token = StringValueCStr(access_token);
+  }
+
+  error = rb_thread_call_without_gvl(git_push_cb, &args, RUBY_UBF_IO, NULL);
+
   // check for errors and raise exception accordingly
   // raise Git::Error if error is not 0
-  if (error < 0) {
-    raise_exception(error);
+  if (*error < 0) {
+    raise_exception(*error);
   }
 
   return Qnil;
+}
+
+void Init_gitfetch_push() {
+  rb_define_module_function(rb_mGit, "push", rb_git_push, -1);
 }

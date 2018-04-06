@@ -8,3 +8,7 @@ VALUE rb_git_libgit2_version(VALUE self) {
   VALUE version = rb_sprintf("%d.%d.%d", major, minor, rev);
   return version;
 }
+
+void Init_gitfetch_libgit2_version() {
+  rb_define_module_function(rb_mGit, "libgit2_version", rb_git_libgit2_version, 0);
+}

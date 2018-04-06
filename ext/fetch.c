@@ -2,48 +2,19 @@
 
 #define check_error(f) do { int error; if ((error = f) < 0) { git_remote_free(remote); return error; }} while(0)
 
-int fetch_origin(git_repository *repository, VALUE access_token);
-
-// git-fetch remote "origin" for repository at "repository_path"
-VALUE rb_git_fetch(int argc, VALUE *argv, VALUE self) {
-  VALUE repository_path, access_token;
-  rb_scan_args(argc, argv, "11", &repository_path, &access_token);
-
-  int error;
-
-  git_repository *repository = NULL;
-
-  // open repository "repository_path"
-  error = git_repository_open(&repository, StringValueCStr(repository_path));
-  if (error == GIT_OK) {
-    error = fetch_origin(repository, access_token);
-  }
-
-  git_repository_free(repository);
-
-  // check for errors and raise exception accordingly
-  // raise Git::Error if error is not 0
-  if (error < 0) {
-    raise_exception(error);
-  }
-
-  return Qnil;
-}
-
-int fetch_origin(git_repository *repository, VALUE access_token) {
+int fetch_origin(git_repository *repository, char *access_token) {
   git_remote *remote = NULL;
 
   // look up remote "origin"
   check_error(git_remote_lookup(&remote, repository, "origin"));
 
-  struct credentials_s credentials = { NULL, 0 };
+  struct credentials_s credentials = { access_token, 0 };
   // fetch remote
   git_fetch_options fetch_options = GIT_FETCH_OPTIONS_INIT;
   fetch_options.download_tags = GIT_REMOTE_DOWNLOAD_TAGS_ALL;
   fetch_options.prune = GIT_FETCH_NO_PRUNE;
 
-  if (access_token != Qnil) {
-    credentials.access_token = StringValueCStr(access_token);
+  if (access_token) {
     fetch_options.callbacks.credentials = cb_cred_access_token;
     fetch_options.callbacks.payload     = &credentials;
   }
@@ -60,4 +31,46 @@ int fetch_origin(git_repository *repository, VALUE access_token) {
   git_remote_free(remote);
 
   return GIT_OK;
+}
+
+void *git_fetch_cb(void* data) {
+  struct cb_args *args = data;
+
+  git_repository *repository = NULL;
+
+  // open repository "repository_path"
+  args->error = git_repository_open(&repository, args->src);
+  if (args->error == GIT_OK) {
+    args->error = fetch_origin(repository, args->access_token);
+  }
+
+  git_repository_free(repository);
+
+  return &(args->error);
+}
+
+VALUE rb_git_fetch(int argc, VALUE *argv, VALUE self) {
+  int *error;
+  VALUE repository_path, access_token;
+  rb_scan_args(argc, argv, "11", &repository_path, &access_token);
+
+  struct cb_args args = {
+    .src = StringValueCStr(repository_path)
+  };
+
+  if (access_token != Qnil) {
+    args.access_token = StringValueCStr(access_token);
+  }
+
+  error = rb_thread_call_without_gvl(git_fetch_cb, &args, RUBY_UBF_IO, NULL);
+
+  if (*error < 0) {
+    raise_exception(*error);
+  }
+
+  return Qnil;
+}
+
+void Init_gitfetch_fetch() {
+  rb_define_module_function(rb_mGit, "fetch", rb_git_fetch, -1);
 }

@@ -1,5 +1,8 @@
 #include "gitfetch.h"
 
+// define a space for information and references about the module to be stored internally
+VALUE rb_mGit = Qnil;
+
 // store error classes
 VALUE rb_eGitError = Qnil;
 VALUE rb_eGitAuthenticationError = Qnil;
@@ -13,16 +16,7 @@ static void cleanup_cb(void*);
 
 // the initialization method for this module
 void Init_gitfetch() {
-  // define a space for information and references about the module to be stored internally
-  VALUE rb_mGit = Qnil;
-
   rb_mGit = rb_define_module("Git");
-
-  rb_define_module_function(rb_mGit, "fetch", rb_git_fetch, -1);
-  rb_define_module_function(rb_mGit, "libgit2_version", rb_git_libgit2_version, 0);
-  rb_define_module_function(rb_mGit, "local_checkout", rb_git_local_checkout, 2);
-  rb_define_module_function(rb_mGit, "mirror", rb_git_mirror, -1);
-  rb_define_module_function(rb_mGit, "push", rb_git_push, -1);
 
   rb_eGitError = rb_define_class_under(rb_mGit, "Error", rb_eStandardError);
   rb_eGitAuthenticationError = rb_define_class_under(rb_mGit, "AuthenticationError", rb_eGitError);
@@ -31,8 +25,15 @@ void Init_gitfetch() {
   rb_eGitNetworkError = rb_define_class_under(rb_mGit, "NetworkError", rb_eGitError);
   rb_eGitNotFoundError = rb_define_class_under(rb_mGit, "NotFoundError", rb_eGitError);
 
+  Init_gitfetch_fetch();
+  Init_gitfetch_libgit2_version();
+  Init_gitfetch_local_checkout();
+  Init_gitfetch_mirror();
+  Init_gitfetch_push();
+
   // initialize libgit2
   git_libgit2_init();
+  //git_openssl_set_locking();
 
   /* Hook a global object to cleanup the library
    * on shutdown */

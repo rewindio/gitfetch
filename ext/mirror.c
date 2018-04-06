@@ -52,6 +52,14 @@ void *git_mirror_cb(void *data) {
   return &(args->error);
 }
 
+/*
+ * @overload miror(remote_url, path, access_token=nil)
+ *   Set up a mirror of the remote repository.
+ *   @param remote_url [String]
+ *   @param path [String]
+ *   @param access_token [String]
+ *   @return [nil]
+ */
 VALUE rb_git_mirror(int argc, VALUE *argv, VALUE self) {
   int *error;
   VALUE remote_url, path, access_token;

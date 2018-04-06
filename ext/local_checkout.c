@@ -82,6 +82,14 @@ void *git_local_checkout_cb(void* data) {
   return &args->error;
 }
 
+/*
+ * Clones a bare repository into a local repository, checks out all branches and
+ * removes remote/origin
+ *
+ * @param src_path [String] path of the repository to be cloned
+ * @param dst_path [String] path where the cloned repository will be written into
+ * @return [nil]
+ */
 VALUE rb_git_local_checkout(VALUE self, VALUE src_path, VALUE dst_path) {
   int *error;
 

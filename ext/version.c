@@ -1,5 +1,10 @@
 #include "gitfetch.h"
 
+/*
+ * Returns the version String of libgit2
+ *
+ * @return [String] libgit2 version string
+ */
 VALUE rb_git_libgit2_version(VALUE self) {
   int major, minor, rev;
 

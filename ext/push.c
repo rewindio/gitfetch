@@ -37,6 +37,17 @@ void *git_push_cb(void *data) {
   return &(args->error);
 }
 
+/*
+ * @overload push(repository_path, push_url, access_token=nil)
+ *   Push local repository in +repository_path+ to remote repository identified by +push_url+.
+ *   @param repository_path [String]
+ *   @param push_url [String]
+ *   @param access_token [String]
+ *   @return [nil]
+ *
+ *   @example
+ *     Git.push('/data/git/repository.git', 'https://github.com/backhub/new_repository.git', '6a61e7dddd28c...')
+ */
 VALUE rb_git_push(int argc, VALUE *argv, VALUE self) {
   int *error;
   VALUE repository_path, push_url, access_token;

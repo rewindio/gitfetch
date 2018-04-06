@@ -49,6 +49,18 @@ void *git_fetch_cb(void* data) {
   return &(args->error);
 }
 
+/*
+ * @overload fetch(repository_path, access_token=nil)
+ *
+ *   fetches remote "origin" of +repository_path+ using +access_token+ as username for authentication
+ *
+ *   @param repository_path [String] the path to the repository
+ *   @param access_token [String] (optional) access token used for authentication
+ *   @return [nil]
+ *
+ *   @example
+ *     Git.fetch('repository.git', '6a61e7dddd28c...')
+ */
 VALUE rb_git_fetch(int argc, VALUE *argv, VALUE self) {
   int *error;
   VALUE repository_path, access_token;

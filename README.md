@@ -1,7 +1,10 @@
 # gitfetch
 
-gitfetch is a minimal wrapper around libgit2's git_remote_fetch().
-It is used for testing libgit2 without rugged.
+Clone/fetch (or push to) git repositories.
+All method calls are non-blocking, so cloning/fetching multiple
+repositories in parallel is possible using Threads.
+
+Supports GitHub authentication tokens for remote repositories using HTTP.
 
 ## Installation
 
@@ -11,7 +14,11 @@ place
 gem 'gitfetch', git: 'https://github.com/backhub/gitfetch.git', branch: 'master', submodules: true 
 ```
 
-in your `Gemfile`
+in your `Gemfile` and execute
+
+```
+bundle install
+```
 
 ## Usage
 
@@ -44,3 +51,6 @@ Git.mirror('https://github.com/octokit/Spoon-Knife.git', '/data/git/Spoon-Knife.
 # example:
 Git.push('/data/git/repository.git', 'https://github.com/backhub/new_repository.git', '6a61e7dddd28c...')
 ```
+
+---
+(c)2018 by (BackHub)[https://backhub.co]

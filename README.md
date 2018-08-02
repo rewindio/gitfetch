@@ -53,4 +53,4 @@ Git.push('/data/git/repository.git', 'https://github.com/backhub/new_repository.
 ```
 
 ---
-(c)2018 by (BackHub)[https://backhub.co]
+(c)2018 by [BackHub](https://backhub.co)

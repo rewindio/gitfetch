@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 1.9.3'
   s.description           = <<desc
 Clone/fetch (or push to) git repositories.
-All method calls are non-blocking, so cloning/fetching multiple
+All method calls release the GIL, so cloning/fetching multiple
 repositories in parallel is possible using Threads.
 desc
 end

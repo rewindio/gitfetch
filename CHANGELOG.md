@@ -1,3 +1,7 @@
+### 0.0.9 (2018-08-06)
+
+- Update libgit2 to version 0.27.4
+
 ### 0.0.8 (2018-08-01)
 
 - Update libgit2 to version 0.27.3

@@ -15,6 +15,7 @@ void *git_push_cb(void *data) {
     if (error == GIT_OK) {
       struct credentials_s credentials = { args->access_token, 0 };
       git_push_options push_options = GIT_PUSH_OPTIONS_INIT;
+      push_options.pb_parallelism = 0; // auto-detect the number of threads used by the packbuilder
 
       if (args->access_token) {
         push_options.callbacks.credentials = cb_cred_access_token;

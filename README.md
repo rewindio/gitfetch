@@ -1,17 +1,17 @@
 # gitfetch
 
 Clone/fetch (or push to) git repositories.
-All method calls are non-blocking, so cloning/fetching multiple
-repositories in parallel is possible using Threads.
+All method calls are non-blocking, so cloning/fetching/pushing multiple
+repositories concurrently is possible using Threads.
 
-Supports GitHub authentication tokens for remote repositories using HTTP.
+Supports GitHub authentication tokens for remote repositories using HTTP basic auth.
 
 ## Installation
 
 place
 
 ```
-gem 'gitfetch', git: 'https://github.com/backhub/gitfetch.git', branch: 'master', submodules: true 
+gem 'gitfetch' 
 ```
 
 in your `Gemfile` and execute
@@ -30,7 +30,7 @@ require 'gitfetch'
 # example:
 Git.fetch('repository.git', '6a61e7dddd28c...')
 
-# Git.libgti2_version
+# Git.libgit2_version
 # Returns the version String of libgit2
 # example:
 Git.libgit2_version
@@ -52,5 +52,13 @@ Git.mirror('https://github.com/octokit/Spoon-Knife.git', '/data/git/Spoon-Knife.
 Git.push('/data/git/repository.git', 'https://github.com/backhub/new_repository.git', '6a61e7dddd28c...')
 ```
 
+## Why
+
+*gitfetch* was built @[BackHub](https://backhub.co) because we needed a tool to backup GitHub
+repositories. We use [Sidekiq](https://sidekiq.org) for running jobs in multiple threads.
+[rugged](https://github.com/libgit2/rugged) is not thread-safe/blocking background threads.
+
+*gitfetch* features a simple API (clone/fetch/push) and can run in multiple Threads concurrently. 
+
 ---
-(c)2018 by [BackHub](https://backhub.co)
+made with :heart: by Christian Schlack@[BackHub](https://backhub.co)

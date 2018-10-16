@@ -10,7 +10,7 @@ Supports GitHub authentication tokens for remote repositories using HTTP basic a
 
 place
 
-```
+```ruby
 gem 'gitfetch' 
 ```
 
@@ -22,7 +22,7 @@ bundle install
 
 ## Usage
 
-```
+```ruby
 require 'gitfetch'
 
 # Git.fetch(repository, access_token)
@@ -58,7 +58,7 @@ Git.push('/data/git/repository.git', 'https://github.com/backhub/new_repository.
 repositories. We use [Sidekiq](https://sidekiq.org) for running jobs in multiple threads.
 [rugged](https://github.com/libgit2/rugged) is not thread-safe/blocking background threads.
 
-*gitfetch* features a simple API (clone/fetch/push) and can run in multiple Threads concurrently. 
+*gitfetch* features a simple API (clone/fetch/push) and can run in multiple threads concurrently. 
 
 ---
 made with :heart: by Christian Schlack@[BackHub](https://backhub.co)

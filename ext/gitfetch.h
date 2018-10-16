@@ -49,5 +49,6 @@ extern VALUE rb_eGitEofError;
 extern VALUE rb_eGitExistsError;
 extern VALUE rb_eGitNetworkError;
 extern VALUE rb_eGitNotFoundError;
+extern VALUE rb_eGitUserError;
 
 #endif

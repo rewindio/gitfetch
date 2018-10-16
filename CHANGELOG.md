@@ -1,11 +1,18 @@
+### 0.1.0 (2018-10-16)
+- git-push: auto-detect number of threads used by the packbuilder
+- update libgit2 to version 0.27.5
+- new methods: Git.disable_protocol & Git.enable_protocol
+- new error class: Git::UserError
+- update README & .gemspec
+
 ### 0.0.9 (2018-08-06)
 
-- Update libgit2 to version 0.27.4
+- update libgit2 to version 0.27.4
 
 ### 0.0.8 (2018-08-01)
 
-- Update libgit2 to version 0.27.3
-- Update .gemspec & README
+- update libgit2 to version 0.27.3
+- update .gemspec & README
 
 ### 0.0.7 (2018-04-06)
 

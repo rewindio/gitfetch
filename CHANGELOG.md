@@ -1,3 +1,6 @@
+### 0.1.1 (2019-01-16)
+- update libgit2 to version 0.27.7
+
 ### 0.1.0 (2018-10-16)
 - git-push: auto-detect number of threads used by the packbuilder
 - update libgit2 to version 0.27.5

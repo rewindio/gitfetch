@@ -1,3 +1,6 @@
+### 0.1.2 (2019-03-22)
+- update libgit2 to version 0.28.1
+
 ### 0.1.1 (2019-01-16)
 - update libgit2 to version 0.27.7
 

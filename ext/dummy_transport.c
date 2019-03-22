@@ -6,7 +6,7 @@ static int dummy_transport(git_transport **transport, git_remote *owner, void *p
   GIT_UNUSED(owner);
   GIT_UNUSED(param);
 
-  giterr_set_str(GITERR_NONE, "dummy transport: remote operation blocked");
+  git_error_set_str(GIT_ERROR_NONE, "dummy transport: remote operation blocked");
   return GIT_ERROR;
 }
 

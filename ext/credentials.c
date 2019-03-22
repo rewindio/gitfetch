@@ -12,7 +12,7 @@ int cb_cred_access_token(git_cred **out, const char *url, const char *username_f
     struct credentials_s *credentials = payload;
 
     if (credentials->count > 0) {
-      giterr_set_str(GITERR_CALLBACK, "Invalid token");
+      git_error_set_str(GIT_ERROR_CALLBACK, "Invalid token");
       return GIT_EAUTH;
     } else {
       credentials->count++;

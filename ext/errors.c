@@ -1,7 +1,7 @@
 #include "gitfetch.h"
 
 void raise_exception(int error) {
-  const git_error *g_error = giterr_last();
+  const git_error *g_error = git_error_last();
 
   switch (error) {
     case GIT_EAUTH:
@@ -25,9 +25,9 @@ void raise_exception(int error) {
 
     default:
       if (g_error) {
-        if (g_error->klass == GITERR_NONE) {
+        if (g_error->klass == GIT_ERROR_NONE) {
           return;
-        } else if (g_error->klass == GITERR_NET) {
+        } else if (g_error->klass == GIT_ERROR_NET) {
           rb_raise(rb_eGitNetworkError, "%s", g_error->message ? g_error->message : "Network Error");
         }
       } else {

@@ -16,7 +16,7 @@ int create_remote_cb(git_remote **out, git_repository *repo, const char *name, c
     return error;
 
   if (asprintf(&mirror_config, "remote.%s.mirror", name) == -1) {
-    giterr_set_str(GITERR_OS, "asprintf failed");
+    git_error_set_str(GIT_ERROR_OS, "asprintf failed");
     git_config_free(cfg);
     return -1;
   }

@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name                  = "gitfetch"
-  s.version               = "0.1.2"
+  s.version               = "0.1.3"
   s.date                  = Time.now.strftime('%Y-%m-%d')
   s.summary               = "Concurrently clone/fetch/push to (remote) git repositories"
   s.homepage              = "https://backhub.co"

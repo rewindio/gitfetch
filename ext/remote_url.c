@@ -1,7 +1,7 @@
 #include "gitfetch.h"
 
 /*
- * @overload set_remote_url(repository_path, remote_url)
+ * @overload remote_url(repository_path)
  *
  *   gets the URL of remote "origin" for +repository_path+
  *

@@ -33,6 +33,7 @@ void Init_gitfetch() {
   Init_gitfetch_mirror();
   Init_gitfetch_push();
   Init_gitfetch_register_dummy_transport();
+  Init_gitfetch_remote_url();
 
   // initialize libgit2
   git_libgit2_init();

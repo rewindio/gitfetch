@@ -30,6 +30,7 @@ void Init_gitfetch_local_checkout();
 void Init_gitfetch_mirror();
 void Init_gitfetch_push();
 void Init_gitfetch_register_dummy_transport();
+void Init_gitfetch_remote_url();
 
 int cb_cred_access_token(git_cred**, const char*, const char*, unsigned int, void*);
 void raise_exception(int error);
@@ -40,6 +41,8 @@ VALUE rb_git_libgit2_version(VALUE self);
 VALUE rb_git_local_checkout(VALUE self, VALUE src, VALUE dst);
 VALUE rb_git_mirror(int argc, VALUE *argv, VALUE self);
 VALUE rb_git_push(int argc, VALUE *argv, VALUE self);
+VALUE rb_git_remote_url(VALUE self, VALUE repository_path);
+VALUE rb_git_set_remote_url(VALUE self, VALUE repository_path, VALUE remote_url);
 
 extern VALUE rb_mGit;
 

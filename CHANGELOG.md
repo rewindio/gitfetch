@@ -1,3 +1,7 @@
+### 0.1.4 (2019-11-12)
+- add new method Git.remote_url
+- add new method Git.set_remote_url
+
 ### 0.1.3 (2019-09-17)
 - update libgit2 to version 0.28.3
 

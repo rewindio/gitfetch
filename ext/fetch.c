@@ -31,9 +31,10 @@ int fetch_origin(git_repository *repository, char *access_token) {
   check_error(git_remote_fetch(remote, NULL, &fetch_options, NULL));
 
   // update HEAD
-  git_remote_default_branch(&default_branch, remote);
-  git_repository_set_head(repository, default_branch.ptr);
-  git_buf_dispose(&default_branch);
+  if(git_remote_default_branch(&default_branch, remote) != GIT_ENOTFOUND) {
+    check_error(git_repository_set_head(repository, default_branch.ptr));
+    git_buf_dispose(&default_branch);
+  }
 
   git_remote_free(remote);
 

@@ -1,13 +1,11 @@
+#include <git2/buffer.h>
 #include "gitfetch.h"
 
 #define check_error(f) do { int error; if ((error = f) < 0) { git_remote_free(remote); return error; }} while(0)
 
 int fetch_origin(git_repository *repository, char *access_token) {
   git_remote *remote = NULL;
-  const git_remote_head *remote_head, **refs;
-  const git_oid *remote_head_id;
-  git_reference *head = NULL;
-  size_t refs_len;
+  git_buf default_branch = {0};
 
   // look up remote "origin"
   check_error(git_remote_lookup(&remote, repository, "origin"));
@@ -33,15 +31,10 @@ int fetch_origin(git_repository *repository, char *access_token) {
   check_error(git_remote_fetch(remote, NULL, &fetch_options, NULL));
 
   // update HEAD
-  check_error(git_remote_ls(&refs, &refs_len, remote));
-	if(refs_len > 0 && strcmp(refs[0]->name, "HEAD") == 0) {
-    remote_head = refs[0];
-    remote_head_id = &remote_head->oid;
+  git_remote_default_branch(&default_branch, remote);
+  git_repository_set_head(repository, default_branch.ptr);
+  git_buf_dispose(&default_branch);
 
-    git_reference_create(&head, repository, "refs/remotes/origin/HEAD",
-                         remote_head_id, 1, NULL);
-    git_reference_free(head);
-  }
   git_remote_free(remote);
 
   return GIT_OK;

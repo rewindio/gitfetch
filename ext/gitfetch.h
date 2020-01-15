@@ -14,6 +14,7 @@ struct cb_args {
   char *src;
   char *dst;
   char *access_token;
+  int update_head;
   int error;
 };
 

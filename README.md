@@ -25,17 +25,16 @@ bundle install
 ```ruby
 require 'gitfetch'
 
-# Git.fetch(repository, access_token)
+# Git.fetch(repository, access_token=nil, update_head=false)
 # connects to remote "origin" of +repository_path+ using +access_token+ as
 # username for authentication:
 #
 # - prunes tracking refs that are no longer present on remote
 # - downloads new data and update tips
-# - make the repository HEAD point to the remote's default branch
-#   (for bare repositories)
+# - optionally make the repository HEAD point to the remote's default branch
 #
 # example:
-Git.fetch('repository.git', '6a61e7dddd28c...')
+Git.fetch('repository.git', '6a61e7dddd28c...', true)
 
 # Git.libgit2_version
 # Returns the version String of libgit2

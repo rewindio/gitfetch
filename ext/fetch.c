@@ -2,7 +2,7 @@
 
 #define check_error(f) do { int error; if ((error = f) < 0) { git_remote_free(remote); return error; }} while(0)
 
-int fetch_origin(git_repository *repository, char *access_token) {
+int fetch_origin(git_repository *repository, char *access_token, int update_head) {
   git_remote *remote = NULL;
   git_buf default_branch = {0};
 
@@ -30,7 +30,7 @@ int fetch_origin(git_repository *repository, char *access_token) {
   check_error(git_remote_fetch(remote, NULL, &fetch_options, NULL));
 
   // update HEAD for bare repositories
-  if(git_repository_is_bare(repository)) {
+  if(update_head) {
     credentials.count = 0;
     if(git_remote_default_branch(&default_branch, remote) == GIT_OK) {
       check_error(git_repository_set_head(repository, default_branch.ptr));
@@ -50,7 +50,7 @@ void *git_fetch_cb(void* data) {
   // open repository "repository_path"
   args->error = git_repository_open(&repository, args->src);
   if (args->error == GIT_OK) {
-    args->error = fetch_origin(repository, args->access_token);
+    args->error = fetch_origin(repository, args->access_token, args->update_head);
   }
 
   git_repository_free(repository);
@@ -59,7 +59,7 @@ void *git_fetch_cb(void* data) {
 }
 
 /*
- * @overload fetch(repository_path, access_token=nil)
+ * @overload fetch(repository_path, access_token=nil, update_head=false)
  *
  *   connects to remote "origin" of +repository_path+ using +access_token+ as
  *   username for authentication:
@@ -67,10 +67,11 @@ void *git_fetch_cb(void* data) {
  *   - prunes tracking refs that are no longer present on remote
  *   - downloads new data and update tips
  *   - make the repository HEAD point to the remote's default branch
- *     (for bare repositories)
+ *     (optional)
  *
  *   @param repository_path [String] the path to the repository
  *   @param access_token [String] (optional) access token used for authentication
+ *   @param update_head [Bool] (optional) set HEAD to remote HEAD
  *   @return [nil]
  *
  *   @example
@@ -78,11 +79,12 @@ void *git_fetch_cb(void* data) {
  */
 VALUE rb_git_fetch(int argc, VALUE *argv, VALUE self) {
   int *error;
-  VALUE repository_path, access_token;
-  rb_scan_args(argc, argv, "11", &repository_path, &access_token);
+  VALUE repository_path, access_token, update_head;
+  rb_scan_args(argc, argv, "12", &repository_path, &access_token, &update_head);
 
   struct cb_args args = {
-    .src = StringValueCStr(repository_path)
+    .src = StringValueCStr(repository_path),
+    .update_head = update_head == Qtrue ? 1 : 0
   };
 
   if (access_token != Qnil) {

@@ -84,7 +84,7 @@ VALUE rb_git_fetch(int argc, VALUE *argv, VALUE self) {
 
   struct cb_args args = {
     .src = StringValueCStr(repository_path),
-    .update_head = update_head == Qtrue ? 1 : 0
+    .update_head = ((update_head == Qtrue) ? 1 : 0)
   };
 
   if (access_token != Qnil) {

@@ -1,3 +1,8 @@
+### 0.1.5 (2020-01-15)
+- update libgit2 to version 0.28.4
+- Git.mirror: set HEAD to remote HEAD
+- Git.fetch: optionally update HEAD to remote HEAD
+
 ### 0.1.4 (2019-11-12)
 - add new method Git.remote_url
 - add new method Git.set_remote_url

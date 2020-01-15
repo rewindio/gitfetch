@@ -1,4 +1,3 @@
-#include <git2/buffer.h>
 #include "gitfetch.h"
 
 #define check_error(f) do { int error; if ((error = f) < 0) { git_remote_free(remote); return error; }} while(0)

@@ -29,13 +29,14 @@ int fetch_origin(git_repository *repository, char *access_token) {
   credentials.count = 0;
   check_error(git_remote_fetch(remote, NULL, &fetch_options, NULL));
 
-  // update HEAD
-  credentials.count = 0;
-  if(git_remote_default_branch(&default_branch, remote) == GIT_OK) {
-    check_error(git_repository_set_head(repository, default_branch.ptr));
-    git_buf_dispose(&default_branch);
+  // update HEAD for bare repositories
+  if(git_repository_is_bare(repository)) {
+    credentials.count = 0;
+    if(git_remote_default_branch(&default_branch, remote) == GIT_OK) {
+      check_error(git_repository_set_head(repository, default_branch.ptr));
+      git_buf_dispose(&default_branch);
+    }
   }
-
   git_remote_free(remote);
 
   return GIT_OK;
@@ -60,7 +61,13 @@ void *git_fetch_cb(void* data) {
 /*
  * @overload fetch(repository_path, access_token=nil)
  *
- *   fetches remote "origin" of +repository_path+ using +access_token+ as username for authentication
+ *   connects to remote "origin" of +repository_path+ using +access_token+ as
+ *   username for authentication:
+ *
+ *   - prunes tracking refs that are no longer present on remote
+ *   - downloads new data and update tips
+ *   - make the repository HEAD point to the remote's default branch
+ *     (for bare repositories)
  *
  *   @param repository_path [String] the path to the repository
  *   @param access_token [String] (optional) access token used for authentication

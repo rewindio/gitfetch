@@ -66,8 +66,7 @@ void *git_fetch_cb(void* data) {
  *
  *   - prunes tracking refs that are no longer present on remote
  *   - downloads new data and update tips
- *   - make the repository HEAD point to the remote's default branch
- *     (optional)
+ *   - make the repository HEAD point to the remote's default branch (optional)
  *
  *   @param repository_path [String] the path to the repository
  *   @param access_token [String] (optional) access token used for authentication

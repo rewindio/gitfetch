@@ -12,7 +12,9 @@ Gem::Specification.new do |s|
   s.files                 += Dir.glob("vendor/libgit2/{cmake,include,src,deps}/**/*")
   s.files                 += Dir.glob("vendor/libgit2/{CMakeLists.txt,Makefile.embed,AUTHORS,COPYING,libgit2.pc.in}")
   s.extensions            = ['ext/extconf.rb']
-  s.metadata              = { "source_code_uri" => "https://github.com/backhub/gitfetch" }
+  s.metadata              = { "changelog_uri"     => "https://github.com/backhub/gitfetch/blob/master/CHANGELOG.md",
+                              "documentation_uri" => "https://rubydoc.info/gems/gitfetch",
+                              "source_code_uri"   => "https://github.com/backhub/gitfetch" }
   s.required_ruby_version = '>= 1.9.3'
   s.description           = <<desc
 Clone/fetch (or push to) git repositories.

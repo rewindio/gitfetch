@@ -1,6 +1,8 @@
 #include "gitfetch.h"
 
 /*
+ * @overload version
+ *
  * Returns the version String of libgit2
  *
  * @return [String] libgit2 version string

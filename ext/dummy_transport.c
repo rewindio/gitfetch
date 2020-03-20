@@ -36,7 +36,7 @@ VALUE rb_disable_protocol(VALUE self, VALUE protocol) {
 
 /*
  * @overload enable_protocol
- *   re-enables previosly disabled remote operations for *protocol* 
+ *   re-enables previously disabled remote operations for *protocol*
  *   @param protocol [String] the transport protocol (e. g. 'https')
  *   @return [true,false]
  *

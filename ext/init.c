@@ -28,6 +28,7 @@ void Init_gitfetch() {
   rb_eGitUserError = rb_define_class_under(rb_mGit, "UserError", rb_eGitError);
 
   Init_gitfetch_fetch();
+  Init_gitfetch_is_repository();
   Init_gitfetch_libgit2_version();
   Init_gitfetch_local_checkout();
   Init_gitfetch_mirror();

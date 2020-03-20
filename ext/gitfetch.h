@@ -25,6 +25,7 @@ struct credentials_s {
 
 // initialization methods - Ruby calls these, not you
 void Init_gitfetch();
+void Init_gitfetch_is_repository();
 void Init_gitfetch_fetch();
 void Init_gitfetch_libgit2_version();
 void Init_gitfetch_local_checkout();

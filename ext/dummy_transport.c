@@ -1,3 +1,4 @@
+#include <git2/transport.h>
 #include <git2/sys/transport.h>
 #include "gitfetch.h"
 

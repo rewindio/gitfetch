@@ -1,3 +1,8 @@
+### 0.1.6 (2020-03-20)
+- Update libgit2 to version 0.99.0
+- Git.is_repository?: check whether a given path is a git repository
+- Improve docs
+
 ### 0.1.5 (2020-01-15)
 - update libgit2 to version 0.28.4
 - Git.mirror: set HEAD to remote HEAD

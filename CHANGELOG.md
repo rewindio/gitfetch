@@ -1,3 +1,6 @@
+### 0.1.7 (2020-04-16)
+- Update libgit2 to version 1.0.0
+
 ### 0.1.6 (2020-03-20)
 - Update libgit2 to version 0.99.0
 - Git.is_repository?: check whether a given path is a git repository

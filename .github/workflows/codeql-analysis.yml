@@ -45,7 +45,7 @@ jobs:
 
     - name: Install dependiencies
       run: |
-        sudo apt-get -y install cmake
+        sude DEBIAN_FRONTEND=noninteractive apt-get -y install cmake ruby-dev
 
     - name: Fetch git submodules
       run: |

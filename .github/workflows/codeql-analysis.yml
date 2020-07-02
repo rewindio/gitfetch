@@ -10,6 +10,8 @@ jobs:
   CodeQL-Build:
 
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./ext
 
     steps:
     - name: Checkout repository
@@ -44,7 +46,6 @@ jobs:
     #    uses a compiled language
 
     - run: |
-       cd ext
        ruby extconf.rb
        make
 

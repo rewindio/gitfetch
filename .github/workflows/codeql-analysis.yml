@@ -4,7 +4,7 @@ on:
   push:
   pull_request:
   schedule:
-    - cron: '27 3 * * 7'
+    - cron: '27 3 * * 6'
 
 jobs:
   CodeQL-Build:

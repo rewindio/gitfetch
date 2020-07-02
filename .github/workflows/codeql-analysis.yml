@@ -10,8 +10,6 @@ jobs:
   CodeQL-Build:
 
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./ext
 
     steps:
     - name: Checkout repository
@@ -45,9 +43,11 @@ jobs:
     #    and modify them (or add more) to build your code if your project
     #    uses a compiled language
 
-    - run: |
-       ruby extconf.rb
-       make
+    - name: Build
+      run: |
+        ruby extconf.rb
+        make
+      working-directory: ./ext
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1

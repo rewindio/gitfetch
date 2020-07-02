@@ -45,11 +45,11 @@ jobs:
 
     - name: Install dependiencies
       run: |
-        sudo DEBIAN_FRONTEND=noninteractive apt-get -y install cmake ruby-dev
+        sudo DEBIAN_FRONTEND=noninteractive apt-get -y install cmake 
 
     - name: Fetch git submodules
       run: |
-        git submodule init
+        git submodule update --init
 
     - name: Build
       run: |

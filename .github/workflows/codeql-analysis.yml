@@ -43,10 +43,6 @@ jobs:
     #    and modify them (or add more) to build your code if your project
     #    uses a compiled language
 
-    - name: Install dependiencies
-      run: |
-        sudo DEBIAN_FRONTEND=noninteractive apt-get -y install cmake 
-
     - name: Fetch git submodules
       run: |
         git submodule update --init

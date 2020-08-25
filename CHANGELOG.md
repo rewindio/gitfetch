@@ -1,3 +1,8 @@
+### 0.1.9 (2020-08-25)
+- bugfix: raise Exception for unknow errors
+- New class Git::HTTPError
+- Update README
+
 ### 0.1.8 (2020-05-04)
 - Update libgit2 to version 1.0.1
 

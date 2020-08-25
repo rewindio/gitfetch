@@ -49,12 +49,12 @@ Git.mirror('https://github.com/octokit/Spoon-Knife.git', '/data/git/Spoon-Knife.
 # Pushes local repository to remote push_url
 # example:
 Git.push('/data/git/repository.git', 'https://github.com/backhub/new_repository.git', '6a61e7dddd28c...')
-```
 
 # Git.libgit2_version
 # Returns the version String of libgit2
 # example:
 Git.libgit2_version
+```
 
 ## Why
 

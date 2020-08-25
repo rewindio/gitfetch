@@ -8,6 +8,7 @@ VALUE rb_eGitError = Qnil;
 VALUE rb_eGitAuthenticationError = Qnil;
 VALUE rb_eGitEofError = Qnil;
 VALUE rb_eGitExistsError = Qnil;
+VALUE rb_eGitHTTPError = Qnil;
 VALUE rb_eGitNetworkError = Qnil;
 VALUE rb_eGitNotFoundError = Qnil;
 VALUE rb_eGitUserError = Qnil;
@@ -23,6 +24,7 @@ void Init_gitfetch() {
   rb_eGitAuthenticationError = rb_define_class_under(rb_mGit, "AuthenticationError", rb_eGitError);
   rb_eGitEofError = rb_define_class_under(rb_mGit, "EofError", rb_eGitError);
   rb_eGitExistsError = rb_define_class_under(rb_mGit, "ExistsError", rb_eGitError);
+  rb_eGitHTTPError = rb_define_class_under(rb_mGit, "HTTPError", rb_eGitError);
   rb_eGitNetworkError = rb_define_class_under(rb_mGit, "NetworkError", rb_eGitError);
   rb_eGitNotFoundError = rb_define_class_under(rb_mGit, "NotFoundError", rb_eGitError);
   rb_eGitUserError = rb_define_class_under(rb_mGit, "UserError", rb_eGitError);

@@ -52,6 +52,7 @@ extern VALUE rb_eGitError;
 extern VALUE rb_eGitAuthenticationError;
 extern VALUE rb_eGitEofError;
 extern VALUE rb_eGitExistsError;
+extern VALUE rb_eGitHTTPError;
 extern VALUE rb_eGitNetworkError;
 extern VALUE rb_eGitNotFoundError;
 extern VALUE rb_eGitUserError;

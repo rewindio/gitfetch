@@ -11,6 +11,7 @@ VALUE rb_eGitExistsError = Qnil;
 VALUE rb_eGitHTTPError = Qnil;
 VALUE rb_eGitNetworkError = Qnil;
 VALUE rb_eGitNotFoundError = Qnil;
+VALUE rb_eGitRepositoryNotExportedError = Qnil;
 VALUE rb_eGitUserError = Qnil;
 
 static VALUE rb_mShutdownHook;
@@ -27,6 +28,7 @@ void Init_gitfetch() {
   rb_eGitHTTPError = rb_define_class_under(rb_mGit, "HTTPError", rb_eGitError);
   rb_eGitNetworkError = rb_define_class_under(rb_mGit, "NetworkError", rb_eGitError);
   rb_eGitNotFoundError = rb_define_class_under(rb_mGit, "NotFoundError", rb_eGitError);
+  rb_eGitRepositoryNotExportedError = rb_define_class_under(rb_mGit, "RepositoryNotExportedError", rb_eGitError);
   rb_eGitUserError = rb_define_class_under(rb_mGit, "UserError", rb_eGitError);
 
   Init_gitfetch_fetch();

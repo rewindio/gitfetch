@@ -1,3 +1,4 @@
+#include <string.h>
 #include "gitfetch.h"
 
 void raise_exception(int error) {
@@ -27,13 +28,15 @@ void raise_exception(int error) {
       if (g_error) {
         if (g_error->klass == GIT_ERROR_NONE) {
           return;
-        } else if (g_error->klass == GIT_ERROR_NET) {
-          rb_raise(rb_eGitNetworkError, "%s", g_error->message ? g_error->message : "Network Error");
+        } else if (g_error->message && strstr(g_error->message, "repository not exported")) {
+          rb_raise(rb_eGitRepositoryNotExportedError, "%s", g_error->message);
         } else if (g_error->klass == GIT_ERROR_HTTP) {
           rb_raise(rb_eGitHTTPError, "%s", g_error->message ? g_error->message : "HTTP Error");
+        } else if (g_error->klass == GIT_ERROR_NET) {
+          rb_raise(rb_eGitNetworkError, "%s", g_error->message ? g_error->message : "Network Error");
         } else {
-          rb_raise(rb_eGitError, "%s (%d)", (g_error && g_error->message) ? g_error->message : "Unkown Error",
-            (g_error && g_error->klass) ? g_error->klass : error);
+          rb_raise(rb_eGitError, "%s (%d)", g_error->message ? g_error->message : "Unkown Error",
+            g_error->klass ? g_error->klass : error);
         }
       }
   }

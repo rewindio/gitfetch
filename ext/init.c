@@ -31,11 +31,11 @@ void Init_gitfetch() {
   rb_eGitRepositoryNotExportedError = rb_define_class_under(rb_mGit, "RepositoryNotExportedError", rb_eGitError);
   rb_eGitUserError = rb_define_class_under(rb_mGit, "UserError", rb_eGitError);
 
+  Init_gitfetch_clone_bare();
   Init_gitfetch_fetch();
   Init_gitfetch_is_repository();
   Init_gitfetch_libgit2_version();
   Init_gitfetch_local_checkout();
-  Init_gitfetch_mirror();
   Init_gitfetch_push();
   Init_gitfetch_register_dummy_transport();
   Init_gitfetch_remote_url();

@@ -1,35 +1,6 @@
 #include "gitfetch.h"
 
-int create_remote_cb(git_remote **out, git_repository *repo, const char *name, const char *url, void *payload) {
-  GIT_UNUSED(payload);
-
-  int error;
-  git_config *cfg = NULL;
-  char *mirror_config = NULL;
-
-  /* Create the repository with a mirror refspec */
-  if ((error = git_remote_create_with_fetchspec(out, repo, name, url, "+refs/*:refs/*")) < 0)
-    return error;
-
-  /* Set the mirror setting to true on this remote */
-  if ((error = git_repository_config(&cfg, repo)) < 0)
-    return error;
-
-  if (asprintf(&mirror_config, "remote.%s.mirror", name) == -1) {
-    git_error_set_str(GIT_ERROR_OS, "asprintf failed");
-    git_config_free(cfg);
-    return -1;
-  }
-
-  error = git_config_set_bool(cfg, mirror_config, true);
-
-  free(mirror_config);
-  git_config_free(cfg);
-
-  return error;
-}
-
-void *git_mirror_cb(void *data) {
+void *git_clone_bare_cb(void *data) {
   struct cb_args *args = data;
   struct credentials_s credentials = { args->access_token, 0 };
 
@@ -40,7 +11,8 @@ void *git_mirror_cb(void *data) {
   git_clone_options clone_options = GIT_CLONE_OPTIONS_INIT;
   clone_options.bare = true;
   clone_options.fetch_opts.download_tags = GIT_REMOTE_DOWNLOAD_TAGS_ALL;
-  clone_options.remote_cb = create_remote_cb;
+  clone_options.remote_cb = (git_remote_create_cb) git_remote_create_with_fetchspec;
+  clone_options.remote_cb_payload = (void *) "+refs/heads/*:refs/heads/*";
 
   if (args->access_token) {
     clone_options.fetch_opts.callbacks.credentials = cb_cred_access_token;
@@ -68,14 +40,14 @@ void *git_mirror_cb(void *data) {
 }
 
 /*
- * @overload miror(remote_url, path, access_token=nil)
- *   Set up a mirror of the remote repository.
+ * @overload clone_bare(remote_url, path, access_token=nil)
+ *   Set up a bare clone of the remote repository.
  *   @param remote_url [String]
  *   @param path [String]
  *   @param access_token [String]
  *   @return [nil]
  */
-VALUE rb_git_mirror(int argc, VALUE *argv, VALUE self) {
+VALUE rb_git_clone_bare(int argc, VALUE *argv, VALUE self) {
   int *error;
   VALUE remote_url, path, access_token;
   rb_scan_args(argc, argv, "21", &remote_url, &path, &access_token);
@@ -89,7 +61,7 @@ VALUE rb_git_mirror(int argc, VALUE *argv, VALUE self) {
     args.access_token = StringValueCStr(access_token);
   }
 
-  error = rb_thread_call_without_gvl(git_mirror_cb, &args, RUBY_UBF_IO, NULL);
+  error = rb_thread_call_without_gvl(git_clone_bare_cb, &args, RUBY_UBF_IO, NULL);
 
   if (*error < 0) {
     raise_exception(*error);
@@ -98,6 +70,6 @@ VALUE rb_git_mirror(int argc, VALUE *argv, VALUE self) {
   return Qnil;
 }
 
-void Init_gitfetch_mirror() {
-  rb_define_module_function(rb_mGit, "mirror", rb_git_mirror, -1);
+void Init_gitfetch_clone_bare() {
+  rb_define_module_function(rb_mGit, "clone_bare", rb_git_clone_bare, -1);
 }

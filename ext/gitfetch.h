@@ -25,11 +25,11 @@ struct credentials_s {
 
 // initialization methods - Ruby calls these, not you
 void Init_gitfetch();
+void Init_gitfetch_clone_bare();
 void Init_gitfetch_is_repository();
 void Init_gitfetch_fetch();
 void Init_gitfetch_libgit2_version();
 void Init_gitfetch_local_checkout();
-void Init_gitfetch_mirror();
 void Init_gitfetch_push();
 void Init_gitfetch_register_dummy_transport();
 void Init_gitfetch_remote_url();
@@ -38,10 +38,10 @@ int cb_cred_access_token(git_cred**, const char*, const char*, unsigned int, voi
 void raise_exception(int error);
 
 // methods under module Git are prefixed by 'rb_git_'
+VALUE rb_git_clone_bare(int argc, VALUE *argv, VALUE self);
 VALUE rb_git_fetch(int argc, VALUE *argv, VALUE self);
 VALUE rb_git_libgit2_version(VALUE self);
 VALUE rb_git_local_checkout(VALUE self, VALUE src, VALUE dst);
-VALUE rb_git_mirror(int argc, VALUE *argv, VALUE self);
 VALUE rb_git_push(int argc, VALUE *argv, VALUE self);
 VALUE rb_git_remote_url(VALUE self, VALUE repository_path);
 VALUE rb_git_set_remote_url(VALUE self, VALUE repository_path, VALUE remote_url);

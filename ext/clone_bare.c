@@ -4,8 +4,6 @@ void *git_clone_bare_cb(void *data) {
   struct cb_args *args = data;
   struct credentials_s credentials = { args->access_token, 0 };
 
-  git_remote *remote = NULL;
-  git_buf remote_head = {0};
   git_repository *repository = NULL;
 
   git_clone_options clone_options = GIT_CLONE_OPTIONS_INIT;
@@ -20,20 +18,6 @@ void *git_clone_bare_cb(void *data) {
   }
 
   args->error = git_clone(&repository, args->src, args->dst, &clone_options);
-
-  // look up remote "origin"
-  if(args->error == GIT_OK) {
-    args->error = git_remote_lookup(&remote, repository, "origin");
-    if(args->error == GIT_OK) {
-      // set HEAD to remote HEAD
-      credentials.count = 0;
-      if(git_remote_default_branch(&remote_head, remote) == GIT_OK) {
-        args->error = git_repository_set_head(repository, remote_head.ptr);
-        git_buf_dispose(&remote_head);
-      }
-    }
-    git_remote_free(remote);
-  }
   git_repository_free(repository);
 
   return &(args->error);

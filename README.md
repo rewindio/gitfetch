@@ -35,10 +35,9 @@ require 'gitfetch'
 #
 # - prunes tracking refs that are no longer present on remote
 # - downloads new data and update tips
-# - optionally make the repository HEAD point to the remote's default branch
 #
 # example:
-Git.fetch('repository.git', '6a61e7dddd28c...', true)
+Git.fetch('repository.git', '6a61e7dddd28c...')
 
 # Git.mirror(remote_url, path, access_token)
 # Set up a (bare) mirror of the remote repository.

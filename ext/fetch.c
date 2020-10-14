@@ -2,9 +2,8 @@
 
 #define check_error(f) do { int error; if ((error = f) < 0) { git_remote_free(remote); return error; }} while(0)
 
-int fetch_origin(git_repository *repository, char *access_token, int update_head) {
+int fetch_origin(git_repository *repository, char *access_token) {
   git_remote *remote = NULL;
-  git_buf default_branch = {0};
 
   // look up remote "origin"
   check_error(git_remote_lookup(&remote, repository, "origin"));
@@ -29,16 +28,6 @@ int fetch_origin(git_repository *repository, char *access_token, int update_head
   credentials.count = 0;
   check_error(git_remote_fetch(remote, NULL, &fetch_options, NULL));
 
-  // update HEAD for bare repositories
-  if(update_head) {
-    credentials.count = 0;
-    if(git_remote_default_branch(&default_branch, remote) == GIT_OK) {
-      check_error(git_repository_set_head(repository, default_branch.ptr));
-      git_buf_dispose(&default_branch);
-    }
-  }
-  git_remote_free(remote);
-
   return GIT_OK;
 }
 
@@ -50,7 +39,7 @@ void *git_fetch_cb(void* data) {
   // open repository "repository_path"
   args->error = git_repository_open(&repository, args->src);
   if (args->error == GIT_OK) {
-    args->error = fetch_origin(repository, args->access_token, args->update_head);
+    args->error = fetch_origin(repository, args->access_token);
   }
 
   git_repository_free(repository);
@@ -78,12 +67,11 @@ void *git_fetch_cb(void* data) {
  */
 VALUE rb_git_fetch(int argc, VALUE *argv, VALUE self) {
   int *error;
-  VALUE repository_path, access_token, update_head;
-  rb_scan_args(argc, argv, "12", &repository_path, &access_token, &update_head);
+  VALUE repository_path, access_token;
+  rb_scan_args(argc, argv, "11", &repository_path, &access_token);
 
   struct cb_args args = {
-    .src = StringValueCStr(repository_path),
-    .update_head = ((update_head == Qtrue) ? 1 : 0)
+    .src = StringValueCStr(repository_path)
   };
 
   if (access_token != Qnil) {

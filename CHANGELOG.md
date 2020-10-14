@@ -1,3 +1,11 @@
+### 0.2.0 (2020-10-14)
+- breaking change: Replace Git.mirror by Git.clone_bare
+- breaking change: Remove optional parameter 'update_head' from method Git.fetch
+- Add method Git.update_head
+- Update libgit2 to version 1.1.0
+- New exception Git::RepositoryNotExportedError
+- Don't update HEAD after Git.clone_bare
+
 ### 0.1.9 (2020-08-25)
 - bugfix: raise Exception for unknow errors
 - New class Git::HTTPError

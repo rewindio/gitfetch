@@ -59,7 +59,6 @@ void *git_fetch_cb(void* data) {
  *
  *   @param repository_path [String] the path to the repository
  *   @param access_token [String] (optional) access token used for authentication
- *   @param update_head [Bool] (optional) set HEAD to remote HEAD
  *   @return [nil]
  *
  *   @example

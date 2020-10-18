@@ -30,7 +30,9 @@ void *git_update_head_cb(void *data) {
       if(error == GIT_OK) {
         error = git_remote_default_branch(&remote_head, remote);
 
-        if(error == GIT_OK) {
+        if(error == GIT_ENOTFOUND) {
+          error = GIT_OK; // Ignore GIT_ENOTFOUND on empty repositories
+        } else if(error == GIT_OK) {
           error = git_repository_set_head(repository, remote_head.ptr);
           git_buf_dispose(&remote_head);
         }

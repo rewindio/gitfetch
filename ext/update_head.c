@@ -40,6 +40,8 @@ void *git_update_head_cb(void *data) {
   }
 
   args->error = error;
+
+  git_repository_free(repository);
   return &args->error;
 }
 

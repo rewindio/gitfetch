@@ -28,6 +28,7 @@ int fetch_origin(git_repository *repository, char *access_token) {
   credentials.count = 0;
   check_error(git_remote_fetch(remote, NULL, &fetch_options, NULL));
 
+  git_remote_free(remote);
   return GIT_OK;
 }
 

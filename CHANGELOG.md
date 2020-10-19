@@ -1,3 +1,8 @@
+### 0.2.1 (2020-10-18)
+- Git.fetch: fix memory leak
+- Git.update_head: fix memory leak
+- Git.update_head: fix 'Object not found' error on empty repositories
+
 ### 0.2.0 (2020-10-14)
 - breaking change: Replace Git.mirror by Git.clone_bare
 - breaking change: Remove optional parameter 'update_head' from method Git.fetch
@@ -7,7 +12,7 @@
 - Don't update HEAD after Git.clone_bare
 
 ### 0.1.9 (2020-08-25)
-- bugfix: raise Exception for unknow errors
+- bugfix: raise Exception for unknown errors
 - New class Git::HTTPError
 - Update README
 

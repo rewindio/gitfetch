@@ -49,14 +49,13 @@ void *git_fetch_cb(void* data) {
 }
 
 /*
- * @overload fetch(repository_path, access_token=nil, update_head=false)
+ * @overload fetch(repository_path, access_token=nil)
  *
  *   connects to remote "origin" of +repository_path+ using +access_token+ as
  *   username for authentication:
  *
  *   - prunes tracking refs that are no longer present on remote
  *   - downloads new data and update tips
- *   - make the repository HEAD point to the remote's default branch (optional)
  *
  *   @param repository_path [String] the path to the repository
  *   @param access_token [String] (optional) access token used for authentication

@@ -1,5 +1,18 @@
 #include "gitfetch.h"
 
+int delete_reference(git_repository *repository, const char *name) {
+  git_reference *reference;
+  int error;
+
+  error = git_reference_lookup(&reference, repository, name);
+  if (error == GIT_OK) {
+    error = git_reference_delete(reference);
+    git_reference_free(reference);
+  }
+
+  return error;
+}
+
 void *git_clone_bare_cb(void *data) {
   struct cb_args *args = data;
   struct credentials_s credentials = { args->access_token, 0 };
@@ -18,7 +31,10 @@ void *git_clone_bare_cb(void *data) {
   }
 
   args->error = git_clone(&repository, args->src, args->dst, &clone_options);
-  git_repository_free(repository);
+  if (args->error == GIT_OK) {
+    args->error = delete_reference(repository, "refs/remotes/origin/HEAD");
+    git_repository_free(repository);
+  }
 
   return &(args->error);
 }

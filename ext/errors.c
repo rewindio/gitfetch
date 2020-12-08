@@ -34,6 +34,8 @@ void raise_exception(int error) {
           rb_raise(rb_eGitHTTPError, "%s", g_error->message ? g_error->message : "HTTP Error");
         } else if (g_error->klass == GIT_ERROR_NET) {
           rb_raise(rb_eGitNetworkError, "%s", g_error->message ? g_error->message : "Network Error");
+        } else if (g_error->klass == GIT_ERROR_SSL) {
+          rb_raise(rb_eGitSSLError, "%s", g_error->message ? g_error->message : "SSL Error");
         } else {
           rb_raise(rb_eGitError, "%s (%d)", g_error->message ? g_error->message : "Unkown Error",
             g_error->klass ? g_error->klass : error);

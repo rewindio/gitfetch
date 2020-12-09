@@ -55,8 +55,8 @@ void raise_exception(int error) {
             break;
         }
         break;
-      }
-    } else {
-      rb_raise(rb_eGitError, "Unkown Error (%d)", error);
     }
+  } else {
+    rb_raise(rb_eGitError, "Unkown Error (%d)", error);
+  }
 }

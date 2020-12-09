@@ -1,3 +1,7 @@
+### 0.2.2 (2020-12-09)
+- New exception Git::SSLError
+- Improve docs & code quality
+
 ### 0.2.1 (2020-10-18)
 - Git.fetch: fix memory leak
 - Git.update_head: fix memory leak

@@ -8,7 +8,7 @@ int cb_cred_access_token(git_cred **out, const char *url, const char *username_f
   GIT_UNUSED(url);
   GIT_UNUSED(username_from_url);
 
-  if (allowed_types & GIT_CREDTYPE_USERPASS_PLAINTEXT) {
+  if (allowed_types & GIT_CREDENTIAL_USERPASS_PLAINTEXT) {
     struct credentials_s *credentials = payload;
 
     if (credentials->count > 0) {

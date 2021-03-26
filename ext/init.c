@@ -35,6 +35,7 @@ void Init_gitfetch() {
 
   Init_gitfetch_clone_bare();
   Init_gitfetch_fetch();
+  Init_gitfetch_has_commits();
   Init_gitfetch_is_repository();
   Init_gitfetch_libgit2_version();
   Init_gitfetch_local_checkout();

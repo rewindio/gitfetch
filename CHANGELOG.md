@@ -1,3 +1,6 @@
+### 0.2.3 (2021-03-26)
+- Add method Git.has_commits?
+
 ### 0.2.2 (2020-12-09)
 - New exception Git::SSLError
 - Improve docs & code quality
